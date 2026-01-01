@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Car Order Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    h2 {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    /* Form Styles */
+    form {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+      border-radius: 5px;
+      border: 1px solid #aaa;
+    }
+    button {
+      background-color: #0077cc;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+    /* Models display */
+    .models-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .model-card {
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background-color: #fff;
+      text-align: center;
+      padding: 10px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .model-card:hover {
+      transform: scale(1.05);
+    }
+    .model-card img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <img src="images/MERCE COVER.jpg" alt="mercedes">
+
+    <!-- Step 1: Select Brand -->
+    <label for="brand">Select Car Model:</label>
+    <select id="brand">
+      <option value="">--Choose a Model--</option>
+      <option value="Land Cruiser">Honda</option>
+    </select>
+
+    <!-- Step 2: Display models dynamically -->
+    <div id="models-container" class="models-container"></div>
+
+    <!-- Step 3: Order Form -->
+    <form id="order-form">
+      <label for="selected-car">Selected Car:</label>
+      <input type="text" id="selected-car" name="selected-car" readonly required>
+
+      <label for="condition">Choose Condition:</label>
+      <select id="condition" name="condition" required>
+        <option value="">--Choose an Option--</option>
+        <option value="Brand New">Brand New</option>
+        <option value="Second Hand">Second Hand</option>
+        <option value="Certified Pre-Owned">Certified Pre-Owned</option>
+        <option value="Used but Good">Used but Good</option>
+        <option value="Luxury / Premium">Luxury / Premium</option>
+        <option value="Classic / Vintage">Classic / Vintage</option>
+      </select>
+
+      <label for="budget">Budget Range:</label>
+      <select id="budget" name="budget">
+        <option value="">--Choose Your Budget--</option>
+        <option value="Under $20,000">Under $20,000</option>
+        <option value="$20,000 - $50,000">$20,000 - $50,000</option>
+        <option value="$50,000 - $100,000">$50,000 - $100,000</option>
+        <option value="Over $100,000">Over $100,000</option>
+      </select>
+
+      <label for="name">Full Name:</label>
+      <input type="text" id="name" name="name" placeholder="Your Name" required>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" placeholder="you@example.com" required>
+
+      <label for="phone">Phone Number:</label>
+      <input type="tel" id="phone" name="phone" placeholder="+254 7XXXXXXXX" required>
+
+      <label for="notes">Additional Notes:</label>
+      <textarea id="notes" name="notes" placeholder="Any special requests?" rows="4"></textarea>
+
+      <button type="submit">Submit Order</button>
+    </form>
+  </div>
+
+  <script>
+    // Sample models for each brand
+    const carModels = {
+      "Land Cruiser": [
+        {name: "MERCEDES A", img: "images/mercedes A.jpg"},
+        {name: "MERCEDES C", img: "images/mercedes C.jpg"},
+        {name: "MERCEDES E", img: "images/mercedes -E.jpg"},
+        {name: "MERCEDES S", img: "images/mercedes S.jpg"}
+
+      ]
+    };
+
+    const brandSelect = document.getElementById('brand');
+    const modelsContainer = document.getElementById('models-container');
+    const selectedCarInput = document.getElementById('selected-car');
+
+    // Update models when brand changes
+    brandSelect.addEventListener('change', () => {
+      modelsContainer.innerHTML = '';
+      selectedCarInput.value = '';
+      const selectedBrand = brandSelect.value;
+      if(carModels[selectedBrand]){
+        carModels[selectedBrand].forEach(model => {
+          const card = document.createElement('div');
+          card.className = 'model-card';
+          card.innerHTML = `<img src="${model.img}" alt="${model.name}"><p>${model.name}</p>`;
+          card.addEventListener('click', () => {
+            selectedCarInput.value = model.name;
+            window.scrollTo({ top: document.getElementById('order-form').offsetTop, behavior: 'smooth' });
+          });
+          modelsContainer.appendChild(card);
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>
